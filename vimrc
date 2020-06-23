@@ -26,6 +26,8 @@ Plugin 'ervandew/supertab'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
+Plugin 'dart-lang/dart-vim-plugin'
+Plugin 'preservim/nerdcommenter'
 
 "Front End
 Plugin 'pangloss/vim-javascript'
@@ -34,6 +36,14 @@ Plugin 'miripiruni/CSScomb-for-Vim'
 
 "Color Schemes
 Plugin 'vim-scripts/wombat256.vim'
+
+" Add maktaba and codefmt to the runtimepath.
+" (The latter must be installed before it can be used.)
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plugin 'google/vim-glaive'
 
 call vundle#end()            " required
 " }}}
@@ -93,6 +103,19 @@ set nocompatible
 filetype off
 set foldmethod=marker
 set linebreak
+set shell=/bin/bash
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+  autocmd FileType vue AutoFormatBuffer prettier
+augroup END
 
 set number
 
